@@ -1,5 +1,9 @@
 <p align="center">
-  <a href="" rel="noopener">
+<a href="" rel="noopener">
+<img src="https://user-images.githubusercontent.com/46085301/212309825-fb31ef54-8b2d-4907-a39d-59e479234797.png" height="100" width="100"/>
+<a/>
+<br>
+<a href="" rel="noopener">
  <img src="https://user-images.githubusercontent.com/46085301/212293448-4a4694ed-635a-4023-800b-636de8477bf9.png" alt="TSF | Graduate Rotational Internship Program "></a>
 </p>
 <h2 align="center">Iris Species Prediction using Decision Trees | The Sparks Foundation: GRIP</h2>
