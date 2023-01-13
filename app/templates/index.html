@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Species Prediction using Decision Tree Algorithm </title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+    <meta name="title" content="Iris Species Prediction using Decision Tree Algorithm | By Bhimraj Yadav">
+    <meta name="description" content="Iris Species Prediction using Decision Tree Algorithm | By Bhimraj Yadav">
+
+    <link rel="icon" type="image/png" href="static/iris.png" />
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12" style="font-family: Poppins;">
+    <div class="relative py-3 px-4 sm:px-0 sm:max-w-xl w-full sm:mx-auto">
+        <div class="relative px-4 py-20 bg-white shadow-lg rounded-3xl w-full sm:p-20 items-center">
+            <!-- Heading with logo -->
+            <div class="flex flex-col items-center">
+                <h1 class="font-bold justify-center items-center flex flex-col sm:flex-row gap-4">
+                    <img class="h-14 w-14 sm:h-8 sm:w-8 rounded-full object-cover " loading="eager"
+                        src="static/iris.png" alt="Iris flower">
+                    <span class="text-3xl">Iris
+                        Species Classifier</span>
+                </h1>
+            </div>
+
+            <!-- Center Body Part -->
+            <div class="py-10 flex justify-center items-center">
+                <form id="iris-form" class="flex flex-col space-y-4">
+                    <div class="flex flex-row space-x-4 justify-between items-center">
+                        <label for="sepal_length">Sepal Length:</label>
+                        <input class="bg-gray-100 px-4 py-2 rounded-xl focus:outline-none focus:ring ring-indigo-500"
+                            type="number" step=".01" id="sepal_length" name="sepal_length" required>
+                    </div>
+                    <div class="flex flex-row space-x-4 justify-between items-center">
+                        <label for="sepal_width">Sepal Width:</label>
+                        <input class="bg-gray-100 px-4 py-2 rounded-xl focus:outline-none focus:ring ring-indigo-500"
+                            type="number" step=".01" id="sepal_width" name="sepal_width" required>
+                    </div>
+                    <div class="flex flex-row space-x-4 justify-between items-center">
+                        <label for="petal_length">Petal Length:</label>
+                        <input class="bg-gray-100 px-4 py-2 rounded-xl focus:outline-none focus:ring ring-indigo-500"
+                            type="number" step=".01" id="petal_length" name="petal_length" required>
+                    </div>
+                    <div class="flex flex-row space-x-4 justify-between items-center">
+                        <label for="petal_width">Petal Width:</label>
+                        <input class="bg-gray-100 px-4 py-2 rounded-xl focus:outline-none focus:ring ring-indigo-500"
+                            type="number" step=".01" id="petal_width" name="petal_width" required>
+                    </div>
+
+                    <div id="output" class="hidden">
+                        <h4 class="text-xl font-semibold text-indigo-700 text-center mt-4">
+                            <span>Predicted class: </span>
+                            <span id="predicted_class">Iris</span>
+                        </h4>
+                    </div>
+
+                    <div id="submit" class="flex flex-row space-x-4 items-center justify-center py-4">
+                        <button onclick="clean()"
+                            class="px-8 py-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 active:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300"
+                            type="reset">Clear</button>
+                        <button
+                            class="px-8 py-2 rounded-full bg-indigo-500 text-white hover:bg-indigo-600 active:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300"
+                            type="submit">Predict</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-3">
+                <div class="items-center flex flex-shrink-0 justify-center"><span>Made with </span>
+                    <span class="text-pink-600 px-1"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                clip-rule="evenodd"></path>
+                        </svg></span>
+                    <a href="https://www.linkedin.com/in/bhimrazy/" target="_blank">
+                        <span class="font-medium text-blue-600 hover:text-blue-700">By Bhimraj Yadav</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const form = document.getElementById("iris-form");
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const sepal_length = form.elements.sepal_length.value;
+        const sepal_width = form.elements.sepal_width.value;
+        const petal_length = form.elements.petal_length.value;
+        const petal_width = form.elements.petal_width.value;
+
+        const data = { sepal_length: sepal_length, sepal_width: sepal_width, petal_length: petal_length, petal_width: petal_width };
+
+        const response = await fetch('/predict', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const result = await response.json();
+
+        const output = document.getElementById("output");
+        output.className = "";
+        const output_prediction = document.getElementById("predicted_class");
+        output_prediction.innerHTML = `${result.class_name}`;
+    });
+    const clean = async () => {
+        const output = document.getElementById("output");
+        output.className = "hidden";
+    };
+</script>
+
+</html>
+
+</html>
